@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nerfies: Deformable Neural Radiance Fields</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || []
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/football-svgrepo-com.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav> -->
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Learning to Discuss Strategically:
+            A Case Study on <i>One Night Ultimate Werewolf</i></h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=43h3vvQAAAAJ&hl">Xuanfa Jin</a><sup><b>*</b>,1,3</sup>,</span>
+            <span class="author-block">
+              <a href="https://ziyan-wang98.github.io/">Ziyan Wang</a><sup><b>*</b>,2</sup>,</span>
+            <span class="author-block">
+              <a href="https://yalidu.github.io/">Yali Du</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://mengfn.github.io//">Meng Fang</a><sup>4</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://pkuzhf.github.io/">Haifeng Zhang</a><sup>1,3,5</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=wIE1tY4AAAAJ&hl=en">Jun Wang</a><sup>†,6</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Institute of Automation, Chinese Academy of Sciences,</span>
+            <span class="author-block"><sup>2</sup>Cooperative AI Lab, Department of Informatics, King's College London,</span>
+            <span class="author-block"><sup>3</sup>School of Artificial Intelligence, University of Chinese Academy of Sciences,</span>
+            <span class="author-block"><sup>4</sup>University of Liverpool,</span>
+            <span class="author-block"><sup>5</sup>Nanjing Artificial Intelligence Research of IA,</span>
+            <span class="author-block"><sup>6</sup>AI Centre, Department of Computer Science, UCL</span>
+          </div>
+          
+          <!-- * is for same contribution -->
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">* Equal contribution</span>
+
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://nips.cc/virtual/2024/poster/96856"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2405.19946"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/ziyan-wang98/URI_video_NeurIPS"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/KylJin/Werewolf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
+        free-viewpoint
+        portraits.
+      </h2>
+    </div>
+  </div>
+</section> -->
+
+<!-- 
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/steve.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/chair-tp.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/shiba.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/fullbody.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/blueshirt.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mask.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-coffee">
+          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/coffee.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/toby2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-2">Abstract</h2>
+        <div class="content has-text-justified">
+          <p style="font-size: 1.2em;">
+            Communication is a fundamental aspect of human society, facilitating the exchange of information and beliefs among people. Despite the advancements in large language models (LLMs), recent agents built with these often neglect the control over discussion tactics, which are essential in communication scenarios and games. As a variant of the famous communication game Werewolf, <i>One Night Ultimate Werewolf</i> (ONUW) requires players to develop strategic discussion policies due to the potential role changes that increase the uncertainty and complexity of the game. In this work, we first present the existence of the Perfect Bayesian Equilibria (PBEs) in two scenarios of the ONUW game: one with discussion and one without. The results showcase that the discussion greatly changes players' utilities by affecting their beliefs, emphasizing the significance of discussion tactics. Based on the insights obtained from the analyses, we propose an RL-instructed language agent framework, where a discussion policy trained by reinforcement learning (RL) is employed to determine appropriate discussion tactics to adopt. Our experimental results on several ONUW game settings demonstrate the effectiveness and generalizability of our proposed framework.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- TODO: add the talk video -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2">Game Process Overview</h2>
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <figure class="image">
+          <img src="./static/image/game_process-1.png" alt="Comparison of Policy Learning Methods" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+          <figcaption class="has-text-centered" style="font-size: 1.1em;"><i>Game process of the ONUW game</i></figcaption>
+        </figure>
+        <div class="content has-text-justified">
+          <p style="font-size: 1.2em;">
+            The game flow shows four main phases: Initial Role Assignment, Night Phase (where abilities are performed in order), Day Phase (discussion in three rounds), and Voting Phase (suspicious player voted out). The diagram illustrates how roles can change during the night phase and how the winner is determined based on voting results.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2">Game Analysis</h2>
+    <div class="content has-text-justified">
+      <div class="tabs">
+        <ul>
+          <li class="is-active" data-tab="game-tree1"><a>Game Tree without Discussion</a></li>
+          <li data-tab="game-tree2"><a>Game Tree with Discussion</a></li>
+        </ul>
+      </div>
+
+      <div class="tab-content">
+        <div class="tab-pane is-active" id="game-tree1">
+          <figure class="image">
+            <img src="./static/image/game_tree_1_new-1.png" alt="Game tree of the game without discussion">
+            <figcaption class="has-text-centered" style="font-size: 1.1em;">Game tree of the game without discussion</figcaption>
+          </figure>
+          <p style="font-size: 1.2em;">
+            A detailed game tree showing player decisions and information sets during Night and Voting phases. Nodes on the same dash lines are in the same information sets for corresponding players.
+          </p>
+        </div>
+
+        <div class="tab-pane" id="game-tree2">
+          <figure class="image">
+            <img src="./static/image/game_tree_2_new-1.png" alt="Game tree of the game with discussion">
+            <figcaption class="has-text-centered" style="font-size: 1.1em;">Game tree of the game with discussion</figcaption>
+          </figure>
+          <p style="font-size: 1.2em;">
+            A detailed game tree showing player decisions and information sets during Night, Day, and Voting phases. Dotted lines represent Player 3's potential speeches, and nodes on the same dash lines are in the same information sets for corresponding players.
+          </p>
+        </div>
+      </div>
+
+   
+      
+    <section class="section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-2">Method: RL-instructed LLM-based Agent</h2>
+        <div class="columns is-centered">
+          <div class="column">
+            <div class="box has-background-white-ter">
+              <figure class="image mb-5">
+                <img src="static/image/framework-1.png" alt="Comparison of Policy Learning Methods" class="has-shadow">
+                <figcaption class="has-text-centered mt-3" style="font-size: 1.1em;"><i>Overview of the RL-instructed LLM-based agent framework</i></figcaption>
+              </figure>
+
+              <div class="content has-text-justified px-5">
+
+                
+                <div class="box has-background-white mb-5">
+                  <div class="content">
+                    <h5 class="title is-5 mb-4">Framework Components:</h5>
+                    <ol class="ml-5">
+                      <li class="mb-3">
+                        <span class="has-text-weight-semibold">Belief Modeling:</span>
+                        Forms beliefs on players' roles based on the observation
+                      </li>
+                      <li class="mb-3">
+                        <span class="has-text-weight-semibold">Discussion Tactic Selection:</span>
+                        Utilizes a discussion policy trained by RL to choose a discussion tactic from candidates
+                      </li>
+                      <li class="mb-3">
+                        <span class="has-text-weight-semibold">Decision Making:</span>
+                        Takes action based on the observation (also belief and discussion tactic, according to the game phase)
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+
+                <div class="box has-background-link-light">
+                  <h4 class="title is-4 has-text-link mb-4">Key Features</h4>
+                  <div class="content">
+                    <ul>
+                      <li>Integration of RL-trained discussion policy with LLM for strategic decision making</li>
+                      <li>Explicit modeling of beliefs about player roles and game state</li>
+                      <li>Phase-specific action generation tailored to game mechanics</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+      
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2">Experimental Results</h2>
+  
+
+    <!-- Experiment 1 -->
+    <div class="box has-background-white-ter mb-6">
+      <h4 class="title is-4 mb-4">1. Three-Player ONUW Equilibria Analysis</h4>
+      
+      <figure class="image mb-4">
+        <img src="static/image/nashconv_bar-1.png" alt="NashConv Performance", style="width: 65%; display: block; margin-left: auto; margin-right: auto;">
+        <figcaption class="has-text-centered mt-2">NashConv values for different agent versions playing the three-player ONUW game</figcaption>
+      </figure>
+
+      <div class="content">
+        <h5 class="title is-5 mb-3">Key Findings:</h5>
+        <ul>
+          <li>Discussion increases equilibria approximation difficulty</li>
+          <li>Discussion policy (LLM-instructed and RL-instructed) helps reduce NashConv values</li>
+          <li>RL-trained policy outperforms direct LLM prompting</li>
+          <li>Gemini-based agents show lower NashConv values than GPT-4-based ones</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Experiment 2 -->
+    <div class="box has-background-white-ter mb-6">
+      <h4 class="title is-4 mb-4">2. Discussion Policy Effectiveness in Five-Player Game</h4>
+
+      <div class="columns">
+        <div class="column">
+          <div class="box">
+            <h5 class="title is-5 mb-3">Easy Setting Results</h5>
+            <figure class="image">
+              <img src="static/image/matrix_easy-1.png" alt="Easy Setting Matrix" style="width: 87%;">
+              <figcaption class="has-text-centered mt-2">Team Village's win rates matrix in easy setting</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="column">
+          <div class="box">
+            <h5 class="title is-5 mb-3">Hard Setting Results</h5>
+            <figure class="image">
+              <img src="static/image/matrix_hard-1.png" alt="Hard Setting Matrix" style="width: 100%;">
+              <figcaption class="has-text-centered mt-2">Team Village's win rates matrix in hard setting</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="content mt-4">
+        <h5 class="title is-5 mb-3">Key Findings:</h5>
+        <ul>
+          <li>Our agent achieves highest win rates as Team Village against all versions</li>
+          <li>Greater performance improvement when playing as Team Village vs Team Werewolf</li>
+          <li>Hard setting (Werewolf switched by Robber) increases reasoning difficulty</li>
+          <li>Game mechanics favor Werewolf team, leading to smaller improvements for Team Werewolf</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Experiment 3 -->
+    <div class="box has-background-white-ter">
+      <h4 class="title is-4 mb-4">3. Discussion Policy Generalizability</h4>
+
+      <div class="table-container">
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+          <caption class="has-text-weight-medium mb-2">Win rates and average votes of agents playing as Player 3</caption>
+          <thead>
+            <tr>
+              <th rowspan="2">Agents</th>
+              <th colspan="2" class="has-text-centered">Gemini (Belief)</th>
+              <th colspan="2" class="has-text-centered">GPT-4 (Belief)</th>
+            </tr>
+            <tr>
+              <th>Win Rates</th>
+              <th>Avg. Votes</th>
+              <th>Win Rates</th>
+              <th>Avg. Votes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ReAct</td>
+              <td>0.40</td>
+              <td>1.23</td>
+              <td>0.30</td>
+              <td>1.73</td>
+            </tr>
+            <tr>
+              <td>Belief</td>
+              <td>0.40</td>
+              <td>1.73</td>
+              <td>0.32</td>
+              <td>1.87</td>
+            </tr>
+            <tr>
+              <td>Random</td>
+              <td>0.37</td>
+              <td>1.53</td>
+              <td>0.32</td>
+              <td>2.03</td>
+            </tr>
+            <tr>
+              <td>LLM-ins.</td>
+              <td>0.62</td>
+              <td class="has-text-weight-bold">1.10</td>
+              <td>0.37</td>
+              <td>1.90</td>
+            </tr>
+            <tr>
+              <td>RL-ins.</td>
+              <td class="has-text-weight-bold">0.70</td>
+              <td class="has-text-weight-bold">1.10</td>
+              <td class="has-text-weight-bold">0.50</td>
+              <td>1.87</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content mt-4">
+        <h5 class="title is-5 mb-3">Key Findings:</h5>
+        <ul>
+          <li>RL-instructed agent outperforms all versions with both Gemini and GPT-4 backends</li>
+          <li>Achieves highest win rates (0.70 with Gemini, 0.50 with GPT-4)</li>
+          <li>Maintains lowest average votes (1.10), indicating better role concealment</li>
+          <li>Successfully competes against GPT-4-based agents despite training on GPT-4 data</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{
+      jin2024learning,
+      title={Learning to Discuss Strategically: A Case Study on One Night Ultimate Werewolf},
+      author={Jin, Xuanfa and Wang, Ziyan and Du, Yali and Fang, Meng and Zhang, Haifeng and Wang, Jun},
+      journal={arXiv preprint arXiv:2405.19946},
+      year={2024}
+  }</code></pre>
+  </div>
+</section>
+
+
+<style>
+  .thin-footer {
+    padding: 10px 0; /* Adjust this value to your liking */
+  }
+</style>
+
+<footer class="footer thin-footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is based on the <a href="https://github.com/nerfies/nerfies.github.io">source code</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var tabs = document.querySelectorAll('.tabs li');
+    var tabPanes = document.querySelectorAll('.tab-pane');
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = this.dataset.tab;
+
+        // 移除所有选项卡的激活状态
+        tabs.forEach(function (item) {
+          item.classList.remove('is-active');
+        });
+
+        
+        this.classList.add('is-active');
+
+        tabPanes.forEach(function (pane) {
+          pane.classList.remove('is-active');
+        });
+
+        document.getElementById(target).classList.add('is-active');
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
