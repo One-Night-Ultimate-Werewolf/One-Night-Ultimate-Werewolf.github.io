@@ -6,7 +6,7 @@
         content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
   <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nerfies: Deformable Neural Radiance Fields</title>
+  <title>Learning to Discuss Strategically: A Case Study on One Night Ultimate Werewolf</title>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
@@ -39,6 +39,7 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
@@ -299,7 +300,7 @@
         </figure>
         <div class="content has-text-justified">
           <p style="font-size: 1.2em;">
-            The game flow shows four main phases: Initial Role Assignment, Night Phase (where abilities are performed in order), Day Phase (discussion in three rounds), and Voting Phase (suspicious player voted out). The diagram illustrates how roles can change during the night phase and how the winner is determined based on voting results.
+            The game process shows four main phases: <b>Initial Role Assignment</b> (roles are randomly dealt to each player), <b>Night Phase</b> (abilities performed in order), <b>Day Phase</b> (discussion in three rounds), and <b>Voting Phase</b> (suspicious player voted out). The diagram illustrates how roles can change during the night phase and how the winner is determined based on the voting results.
           </p>
         </div>
       </div>
@@ -312,10 +313,14 @@
   <div class="container is-max-desktop">
     <h2 class="title is-2">Game Analysis</h2>
     <div class="content has-text-justified">
+      <p style="font-size: 1.2em;">
+        Here we consider a simple but interesting version of the ONUW game: with two Werewolves and one Robber. We present certain Perfect Bayesian Equilibria in this game under two different assumptions, which demonstrate the crucial role that discussion during the Day phase plays in the ONUW game.
+      </p>
+
       <div class="tabs">
         <ul>
-          <li class="is-active" data-tab="game-tree1"><a>Game Tree without Discussion</a></li>
-          <li data-tab="game-tree2"><a>Game Tree with Discussion</a></li>
+          <li class="is-active" data-tab="game-tree1"><a>Game without Discussion</a></li>
+          <li data-tab="game-tree2"><a>Game with Discussion</a></li>
         </ul>
       </div>
 
@@ -328,6 +333,10 @@
           <p style="font-size: 1.2em;">
             A detailed game tree showing player decisions and information sets during Night and Voting phases. Nodes on the same dash lines are in the same information sets for corresponding players.
           </p>
+          <p style="font-size: 1.2em;">
+            <b>Theorem 4.1.</b> <i>For the ONUW game with two Werewolves and one Robber, in the case where discussion is not allowed, there exist PBEs \((\pi^*, b^*)\): the Robber switches with any Werewolves with a probability of \(1/2\) and votes for the player it switches with; the two Werewolves directly vote for each other. Each player's belief in \(b^*\) is consistent with other players' strategies. And the expected utilities of all players in the equilibria are:</i>
+            $$\mathbb{E}_{\pi^*}\left[R^1\right] = \mathbb{E}_{\pi^*}\left[R^2\right] = 0,\ \mathbb{E}_{\pi^*}\left[R^3\right] = 1$$
+          </p>
         </div>
 
         <div class="tab-pane" id="game-tree2">
@@ -338,62 +347,80 @@
           <p style="font-size: 1.2em;">
             A detailed game tree showing player decisions and information sets during Night, Day, and Voting phases. Dotted lines represent Player 3's potential speeches, and nodes on the same dash lines are in the same information sets for corresponding players.
           </p>
+          <p style="font-size: 1.2em;">
+            <b>Theorem 4.2.</b> <i>For the ONUW game with two Werewolves and one Robber, in the case that both Werewolves form beliefs about the Robber's night action with probabilities of \((\alpha, \beta, \gamma)\) (\(\alpha \neq 0\)), there exist PBEs \((\pi^*, b^*)\) during the Voting phase: the Werewolves vote for Player 3 with a probability of \(q\) and each other with \(1 - q\), where \(q = (\beta + \gamma - \alpha)/2\alpha\); the Robber votes for Player 1 with a probability of \(p\) and Player 2 with \(1 - p\), where \(p = (\alpha^2 + \beta^2 - \gamma^2)/2\alpha^2\). Each player's belief in \(b^*\) is consistent with other players' strategies. To ensure \(p\) and \(q\) are probabilities and the existence of the equilibria, there are constraints on the belief distribution (omitted for brevity). And under the constraints, the expected utilities of all players in these equilibria are:</i>
+            $$\mathbb{E}_{\pi^*}\left[R^1\right] = \delta (1 - 2\gamma),\ \mathbb{E}_{\pi^*}\left[R^2\right] = \delta (1 - 2\beta),\ \mathbb{E}_{\pi^*}\left[R^3\right] = - \delta$$
+            <i>where \(\delta = 1/(4\alpha^2) - 1/(2\alpha) - 1\).</i>
+          </p>
+        </div>
+
+        <p></p>
+
+        <div class="box has-background-link-light">
+          <div class="content mt-4">
+            <h4 class="title is-4 mb-4">Key Findings:</h4>
+            <ul>
+              <li class="mb-3">Beliefs are significantly influenced by discussion</li>
+              <li class="mb-3">Players' utilities are determined by their beliefs</li>
+            </ul>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
 
-   
-      
-    <section class="section">
-      <div class="container is-max-desktop">
-        <h2 class="title is-2">Method: RL-instructed LLM-based Agent</h2>
-        <div class="columns is-centered">
-          <div class="column">
-            <div class="box has-background-white-ter">
-              <figure class="image mb-5">
-                <img src="static/image/framework-1.png" alt="Comparison of Policy Learning Methods" class="has-shadow">
-                <figcaption class="has-text-centered mt-3" style="font-size: 1.1em;"><i>Overview of the RL-instructed LLM-based agent framework</i></figcaption>
-              </figure>
 
-              <div class="content has-text-justified px-5">
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2">Method: RL-instructed LLM-based Agent</h2>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="box has-background-white-ter">
+          <figure class="image mb-5">
+            <img src="static/image/framework-1.png" alt="Comparison of Policy Learning Methods" class="has-shadow">
+            <figcaption class="has-text-centered mt-3" style="font-size: 1.1em;"><i>Overview of the RL-instructed LLM-based agent framework</i></figcaption>
+          </figure>
 
-                
-                <div class="box has-background-white mb-5">
-                  <div class="content">
-                    <h5 class="title is-5 mb-4">Framework Components:</h5>
-                    <ol class="ml-5">
-                      <li class="mb-3">
-                        <span class="has-text-weight-semibold">Belief Modeling:</span>
-                        Forms beliefs on players' roles based on the observation
-                      </li>
-                      <li class="mb-3">
-                        <span class="has-text-weight-semibold">Discussion Tactic Selection:</span>
-                        Utilizes a discussion policy trained by RL to choose a discussion tactic from candidates
-                      </li>
-                      <li class="mb-3">
-                        <span class="has-text-weight-semibold">Decision Making:</span>
-                        Takes action based on the observation (also belief and discussion tactic, according to the game phase)
-                      </li>
-                    </ol>
-                  </div>
-                </div>
+          <div class="content has-text-justified px-5">
 
-                <div class="box has-background-link-light">
-                  <h4 class="title is-4 has-text-link mb-4">Key Features</h4>
-                  <div class="content">
-                    <ul>
-                      <li>Integration of RL-trained discussion policy with LLM for strategic decision making</li>
-                      <li>Explicit modeling of beliefs about player roles and game state</li>
-                      <li>Phase-specific action generation tailored to game mechanics</li>
-                    </ul>
-                  </div>
-                </div>
+            
+            <div class="box has-background-white mb-5">
+              <div class="content">
+                <h5 class="title is-5 mb-4">Framework Components:</h5>
+                <ol class="ml-5">
+                  <li class="mb-3">
+                    <span class="has-text-weight-semibold">Belief Modeling:</span>
+                    Form beliefs on players' roles based on the observation
+                  </li>
+                  <li class="mb-3">
+                    <span class="has-text-weight-semibold">Discussion Tactic Selection:</span>
+                    Utilize a discussion policy trained by RL to choose a discussion tactic from the candidates
+                  </li>
+                  <li class="mb-3">
+                    <span class="has-text-weight-semibold">Decision Making:</span>
+                    Take action based on the observation (also belief and discussion tactic, according to the game phase)
+                  </li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="box has-background-link-light">
+              <h4 class="title is-4 has-text-link mb-4">Key Features</h4>
+              <div class="content">
+                <ul>
+                  <li>Integration of RL-trained discussion policy with LLM for strategic decision making</li>
+                  <li>Explicit modeling of beliefs about player roles and game state</li>
+                  <li>Phase-specific action generation tailored to game mechanics</li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-      
+    </div>
+  </div>
+</section>
 
 
 <section class="section">
@@ -406,7 +433,7 @@
       <h4 class="title is-4 mb-4">1. Three-Player ONUW Equilibria Analysis</h4>
       
       <figure class="image mb-4">
-        <img src="static/image/nashconv_bar-1.png" alt="NashConv Performance", style="width: 65%; display: block; margin-left: auto; margin-right: auto;">
+        <img src="static/image/nashconv_bar-1.png" alt="NashConv Performance", style="width: 60%; display: block; margin-left: auto; margin-right: auto;">
         <figcaption class="has-text-centered mt-2">NashConv values for different agent versions playing the three-player ONUW game</figcaption>
       </figure>
 
@@ -416,7 +443,6 @@
           <li>Discussion increases equilibria approximation difficulty</li>
           <li>Discussion policy (LLM-instructed and RL-instructed) helps reduce NashConv values</li>
           <li>RL-trained policy outperforms direct LLM prompting</li>
-          <li>Gemini-based agents show lower NashConv values than GPT-4-based ones</li>
         </ul>
       </div>
     </div>
@@ -449,9 +475,9 @@
       <div class="content mt-4">
         <h5 class="title is-5 mb-3">Key Findings:</h5>
         <ul>
-          <li>Our agent achieves highest win rates as Team Village against all versions</li>
-          <li>Greater performance improvement when playing as Team Village vs Team Werewolf</li>
           <li>Hard setting (Werewolf switched by Robber) increases reasoning difficulty</li>
+          <li>Our agent achieves higher win rates as Team Village and Team Werewolf against all other versions</li>
+          <li>Greater performance improvement when playing as Team Village vs Team Werewolf</li>
           <li>Game mechanics favor Werewolf team, leading to smaller improvements for Team Werewolf</li>
         </ul>
       </div>
@@ -527,12 +553,8 @@
         </ul>
       </div>
     </div>
-
   </div>
 </section>
-
-
-
 
 
 <section class="section" id="BibTeX">
